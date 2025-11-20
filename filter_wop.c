@@ -7,8 +7,43 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
-int	main(int ac, char *av)
+void	ft_filter(char *buffer, const char *target)
+{
+	int	i = 0;
+	int	target_len = strlen(target);
+	int	j, k;
+
+	while (buffer[i])
+	{
+		j = 0;
+
+		// Verificar si hay coincidencia desde la posición actual
+		while (target[j] && (buffer[i+j] == target[j]))
+			j++;
+
+		if (j == target_len) // Coincidencia completa encontrada
+		{
+			// Escribir asteriscos en lugar del patrón
+			k = 0;
+			while (k < target_len)
+			{
+				write(1, "*", 1);
+				k++;
+			}
+			i += target_len;
+		}
+		else
+		{
+			write(1, &buffer[i], 1);
+			i++;
+		}
+	}
+}
+
+int	main(int ac, char **av)
 {
 	if (ac != 2 || av[1][0] == '\0')
 		return 1;
@@ -36,7 +71,7 @@ int	main(int ac, char *av)
 		// Copiar los nuevos datos al buffer principal
 		memmove(result + total_read, temp, bytes);
 		total_read += bytes;
-		result[total_read] = '\0' // Agregar terminación
+		result[total_read] = '\0'; // Agregar terminación
 	}
 
 	// Verificar errores de lectura
