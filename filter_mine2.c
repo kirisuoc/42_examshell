@@ -83,6 +83,5 @@ int	main(int ac, char **av){
 	// Liberar memoria
 	free(result);
 
-
 	return 0;
 }

@@ -1,15 +1,15 @@
 /*
  * EJERCICIO: PERMUTATIONS
- * 
+ *
  * DESCRIPCIÓN:
  * Generar todas las permutaciones de un string dado en orden alfabético.
- * 
+ *
  * CONCEPTOS CLAVE:
  * 1. BACKTRACKING: Algoritmo de exploración exhaustiva
  * 2. ORDENAMIENTO: Asegurar orden alfabético
  * 3. RECURSIÓN: Generar permutaciones nivel por nivel
  * 4. ESTADO: Manejar qué caracteres ya se han usado
- * 
+ *
  * ALGORITMO:
  * 1. Ordenar el string original alfabéticamente
  * 2. Para cada posición, probar cada carácter no usado
@@ -70,7 +70,7 @@ char *order_string(char *s)
      */
     int len = ft_strlen(s);
     int swapped = 1;
-    
+
     while (swapped)
     {
         swapped = 0;
@@ -93,20 +93,20 @@ void generate_permutations(char *source, char *result, int pos)
 {
     /*
      * ALGORITMO BACKTRACKING PARA PERMUTACIONES:
-     * 
+     *
      * CASO BASE: Si pos == longitud, tenemos una permutación completa
      * - Imprimir la permutación actual
      * - Retornar para probar otras opciones
-     * 
+     *
      * CASO RECURSIVO: Para cada carácter en source:
      * - Si no está usado en result, probarlo
      * - Agregarlo a result[pos]
      * - Recursar para la siguiente posición
      * - Remover carácter (backtrack) para probar otros
      */
-    
+
     int source_len = ft_strlen(source);
-    
+
     // Caso base: permutación completa
     if (pos == source_len)
     {
@@ -114,7 +114,7 @@ void generate_permutations(char *source, char *result, int pos)
         write(1, "\n", 1);
         return;
     }
-    
+
     // Probar cada carácter de source
     int i = 0;
     while (i < source_len)
@@ -140,14 +140,14 @@ int main(int argc, char **argv)
      * - Inicializar buffer para resultado
      * - Generar todas las permutaciones
      */
-    
+
     if (argc != 2)
         return 1;
-    
+
     // Verificar string vacío o solo espacios
     if (ft_strlen(argv[1]) == 0 || (argv[1][0] == ' ' && !argv[1][1]))
         return 0;
-    
+
     // Validar que solo contiene caracteres alfabéticos
     int i = 0;
     while (argv[1][i])
@@ -156,35 +156,35 @@ int main(int argc, char **argv)
             return 0;
         i++;
     }
-    
+
     int len = ft_strlen(argv[1]);
-    
+
     // Alocar buffer para el resultado (permutación actual)
     char *result = calloc(len + 1, 1);
     if (!result)
         return 1;
-    
+
     // Ordenar el string alfabéticamente
     char *source = order_string(argv[1]);
-    
+
     // Generar todas las permutaciones
     generate_permutations(source, result, 0);
-    
+
     free(result);
     return 0;
 }
 
 /*
  * EJEMPLO DE EJECUCIÓN:
- * 
+ *
  * ./permutations abc
  * abc
- * acb  
+ * acb
  * bac
  * bca
  * cab
  * cba
- * 
+ *
  * PROCESO PARA "abc":
  * 1. Ordenar: "abc" (ya está ordenado)
  * 2. pos=0: Probar 'a', 'b', 'c'
@@ -192,7 +192,7 @@ int main(int argc, char **argv)
  *      - pos=1: Probar 'b', 'c' (no 'a' porque está usado)
  *        - Elegir 'b': result="ab"
  *          - pos=2: Probar 'c': result="abc" → IMPRIMIR
- *        - Elegir 'c': result="ac"  
+ *        - Elegir 'c': result="ac"
  *          - pos=2: Probar 'b': result="acb" → IMPRIMIR
  *    - Elegir 'b': result="b"
  *      - Similar proceso...
@@ -210,12 +210,12 @@ void heap_permute(char *str, int size)
         puts(str);
         return;
     }
-    
+
     int i;
     for (i = 0; i < size; i++)
     {
         heap_permute(str, size - 1);
-        
+
         // Si size es impar, intercambiar primer y último
         // Si size es par, intercambiar i-ésimo y último
         if (size % 2 == 1)
@@ -227,27 +227,27 @@ void heap_permute(char *str, int size)
 
 /*
  * PUNTOS CLAVE PARA EL EXAMEN:
- * 
+ *
  * 1. ORDEN ALFABÉTICO:
  *    - CRUCIAL ordenar el string antes de generar permutaciones
  *    - Sin ordenamiento, no se garantiza orden alfabético
  *    - Usar algoritmo de ordenamiento simple pero correcto
- * 
+ *
  * 2. BACKTRACKING EFICIENTE:
  *    - Usar array de caracteres usados para verificación O(n)
  *    - Marcar/desmarcar caracteres correctamente
  *    - No olvidar limpiar estado al retornar
- * 
+ *
  * 3. GESTIÓN DE MEMORIA:
  *    - Alocar buffer para permutación actual
  *    - Usar calloc() para inicializar a '\0'
  *    - Liberar memoria al finalizar
- * 
+ *
  * 4. VALIDACIÓN ROBUSTA:
  *    - Verificar número de argumentos
  *    - Validar que solo contiene letras
  *    - Manejar casos especiales (string vacío, espacios)
- * 
+ *
  * 5. OPTIMIZACIONES:
  *    - Para strings con caracteres duplicados, usar algoritmo diferente
  *    - Para strings muy largos, considerar algoritmo de Heap
